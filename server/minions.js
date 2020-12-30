@@ -76,14 +76,17 @@ minionsRouter.param("workId", (req, res, next, id) => {
     req.work = work;
     next();
   } else {
-    res.status(400).send();
+    res.status(404).send();
   }
 });
 // - PUT /api/minions/:minionId/work/:workId to update a single work by id.
 minionsRouter.put("/:minionId/work/:workId", (req, res, next) => {
-  console.log(req.params.minionId, req.params.workId);
-  const updatedWork = updateInstanceInDatabase("work", req.body);
-  res.send(updatedWork);
+  if (req.params.minionId !== req.body.minionId) {
+    res.status(400).send();
+  } else {
+    const updatedWork = updateInstanceInDatabase("work", req.body);
+    res.send(updatedWork);
+  }
 });
 // - DELETE /api/minions/:minionId/work/:workId to delete a single work by id.
 minionsRouter.delete("/:minionId/work/:workId", (req, res, next) => {
@@ -91,7 +94,7 @@ minionsRouter.delete("/:minionId/work/:workId", (req, res, next) => {
   if (deleted) {
     res.status(204);
   } else {
-    res.status(500);
+    res.status(400);
   }
   res.send();
 });
