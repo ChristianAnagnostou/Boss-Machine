@@ -1,0 +1,14 @@
+import React from "react";
+import Heading from "./Heading";
+
+const App = ({ children }) => {
+  console.log("ok");
+  return (
+    <div>
+      <Heading />
+      <div id="content">{children}</div>
+    </div>
+  );
+};
+
+export default App;
